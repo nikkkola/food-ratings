@@ -1,0 +1,46 @@
+body {
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	text-align: center;
+	width: 100%;
+}
+.btn-page {
+	margin: 1px;
+}
+.businesses {
+	border-collapse: collapse;
+	margin: 10px auto;
+	table-layout: fixed;
+	text-align: left;
+	white-space: nowrap;
+	width: 100%;
+}
+.businesses th, td {
+	border-bottom: 1px solid #CCCCCC;
+	padding: 5px;
+}
+.businesses td {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.businesses tr:not(:first-child):hover {
+	background-color: #F2F2F2;
+}
+.row-business {
+	width: 30%;
+}
+.row-address {
+	width: 50%;
+}
+.row-hygene {
+	width: 5%;
+}
+.row-date {
+	width: 7.5%;
+}
+.row-rating {
+	width: 7.5%;
+}
+.result-msg {
+	font-style: italic;
+}

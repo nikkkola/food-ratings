@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Food Ratings</title>
+
+	<meta charset="utf-8">
+
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="js/main.js"></script>
+</head>
+
+<body>
+	<h1>Food Ratings</h1>
+
+	<h4>Compiled using data from the Food Standards Agency and Google Places</h4>
+
+	<p class="descrp">Navigate the table using the buttons below or search for a business by entering a name in the field below the table.<br>
+	The customer rating for a business is available by clicking the 'Get Rating' button.</p>
+
+	<div class="paginator">Pages: </div>
+
+	<table class="businesses">
+		<tr>
+			<th class="row-business">Business</th>
+			<th class="row-address">Address</th>
+			<th class="row-hygene">Hygene</th>
+			<th class="row-date">Date</th>
+			<th class="row-rating">Rating</th>
+		</tr>
+	</table>
+
+	<form>
+		<label for="search-text">Business Name: </label>
+		<input type="text" id="search-text">
+		<input type="submit" id="btn-submit-search" value="Search">
+	</form>
+</body>
+</html>
