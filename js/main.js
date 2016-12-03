@@ -1,3 +1,5 @@
+var names = []; // global array holding all names of businesses
+
 // helper function to empty and repopulate the table with results
 function loadTable(data) {
 	$(".businesses tr:not(:first)").remove();
@@ -10,7 +12,25 @@ function loadTable(data) {
 	$(".businesses").append(trHTML);
 }
 
+// helper function to load all business names into an array
+// used for autocomplete
+function getNames(pageNum) {
+	$.getJSON("https://www.cs.kent.ac.uk/people/staff/lb514/hygiene/hygiene.php",
+	{
+		op: "retrieve",
+		page: pageNum
+	},
+	function(data) {
+		$.each(data, function (i, item) {
+			names.push(item.business);
+	   	});
+	});
+}
+
 $(document).ready(function() {
+	// load autocomplete on search field
+	$("#search-text").autocomplete({ source: names });
+
 	// retrieve the first page of results and populate the table
 	$.getJSON("https://www.cs.kent.ac.uk/people/staff/lb514/hygiene/hygiene.php",
 	{
@@ -30,6 +50,7 @@ $(document).ready(function() {
 		$.each(data, function (i, item) {
             for (var j = 1; j <= item; j++) {
             	btHTML += "<input type='button' class='btn-page' value='" + j + "'>";
+            	getNames(j);
             }
        	});
 		$(".paginator").append(btHTML);
