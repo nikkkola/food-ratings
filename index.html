@@ -18,10 +18,16 @@
 
 	<h4>Compiled using data from the Food Standards Agency and Google Places</h4>
 
-	<p class="descrp">Navigate the table using the buttons below or search for a business by entering a name in the field below the table.<br>
+	<p class="descrp">Navigate the table using the buttons below or search for a business by entering a name in the field.<br>
 	The customer rating for a business is available by clicking the 'Get Rating' button.</p>
 
 	<div class="paginator">Pages: </div>
+
+	<form>
+		<label for="search-text">Business Name: </label>
+		<input type="text" id="search-text">
+		<input type="submit" id="btn-submit-search" value="Search">
+	</form>
 
 	<table class="businesses">
 		<tr>
@@ -32,11 +38,5 @@
 			<th class="row-rating">Rating</th>
 		</tr>
 	</table>
-
-	<form>
-		<label for="search-text">Business Name: </label>
-		<input type="text" id="search-text">
-		<input type="submit" id="btn-submit-search" value="Search">
-	</form>
 </body>
 </html>

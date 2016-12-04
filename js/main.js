@@ -27,9 +27,45 @@ function getNames(pageNum) {
 	});
 }
 
+// function to retrieve businesses with names containing the specified string
+// and populate table with the results
+function doSearch(string) {
+    $.getJSON("https://www.cs.kent.ac.uk/people/staff/lb514/hygiene/hygiene.php",
+    {
+    	op: 'searchname',
+        name: string
+    },
+    function(data) {
+    	loadTable(data);
+    	$(".businesses").before("<p class='result-msg'>Results for businesses with names containing '" + string + "':</p>");
+	});
+}
+
 $(document).ready(function() {
-	// load autocomplete on search field
-	$("#search-text").autocomplete({ source: names });
+	// load autocomplete on search field and add listeners
+	$("#search-text").autocomplete(
+	{
+		source: names,
+		minLength: 2,
+		delay: 0
+	},
+	{
+		search: function(event, ui) {
+			doSearch(this.value);
+		},
+		select: function(event, ui) {
+			doSearch(this.value);
+			$(this).autocomplete("close");
+			$(this).val("");
+			return false;
+		}
+	});
+
+	// adjust autocomplete width
+	jQuery.ui.autocomplete.prototype._resizeMenu = function () {
+  		var ul = this.menu.element;
+  		ul.outerWidth(this.element.outerWidth());
+	};
 
 	// retrieve the first page of results and populate the table
 	$.getJSON("https://www.cs.kent.ac.uk/people/staff/lb514/hygiene/hygiene.php",
@@ -70,19 +106,11 @@ $(document).ready(function() {
 	});
 
 	// search submit button listener that passes the specified string as parameter
-	// to the script and populates the table with the results
+	// and clears the field after
 	$("#btn-submit-search").click(function(e) {
 		e.preventDefault();
 		var value = $('#search-text').val();
-	    $.getJSON("https://www.cs.kent.ac.uk/people/staff/lb514/hygiene/hygiene.php",
-	    {
-	    	op: 'searchname',
-	        name: value
-	    },
-	    function(data) {
-	    	loadTable(data);
-	    	$(".businesses").before("<p class='result-msg'>Results for businesses with names containing '" + value + "':</p>");
-		});
+	    doSearch(value);
 		$('#search-text').val("");
 	});
 

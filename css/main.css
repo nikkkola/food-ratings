@@ -1,14 +1,18 @@
+html {
+	overflow-y: scroll;
+}
 body {
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
 	text-align: center;
-	width: 100%;
 }
 .btn-page {
 	margin: 1px;
 }
+.paginator {
+	margin-bottom: 10px;
+}
 .businesses {
 	border-collapse: collapse;
-	margin: 10px auto;
 	table-layout: fixed;
 	text-align: left;
 	white-space: nowrap;
