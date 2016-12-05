@@ -7,7 +7,8 @@ function loadTable(data) {
 	var trHTML = '';
 	$.each(data, function (i, item) {
         trHTML += '<tr><td>' + item.business + '</td><td>' + item.address + '</td><td>' +
-        			item.rating + '</td><td>' + item.date + '</td><td><input type="button" class="btn-rating" value="Get Rating"></td></tr>';
+        			item.rating + '</td><td>' + item.date + '</td><td><input type="button" id="' +
+        			item.postcode + '" class="btn-rating" value="Get Rating"></td></tr>';
     });
 	$(".businesses").append(trHTML);
 }
@@ -76,33 +77,34 @@ $(document).ready(function() {
 		loadTable(data);
 	});
 
-	// retrieve the total number of pages and create a row of buttons for them
+	// retrieve the total number of pages and create a row of buttons
+	// with listeners attached to each of them
 	$.getJSON("https://www.cs.kent.ac.uk/people/staff/lb514/hygiene/hygiene.php",
 	{
 		op: "pages",
 	},
 	function(data) {
-		var btHTML = '';
 		$.each(data, function (i, item) {
             for (var j = 1; j <= item; j++) {
-            	btHTML += "<input type='button' class='btn-page' value='" + j + "'>";
-            	getNames(j);
+            	var bt = $('<input />', {
+			        type: 'button',
+			        value: j,
+			        class: 'btn-page',
+			        click: function() {
+						$.getJSON("https://www.cs.kent.ac.uk/people/staff/lb514/hygiene/hygiene.php",
+						{
+							op: "retrieve",
+							page: $(this).val()
+						},
+					 	function(data) {
+							loadTable(data);
+						});
+					}
+				});
+				$(".paginator").append(bt);
+				getNames(j);
             }
        	});
-		$(".paginator").append(btHTML);
-	});
-
-	// paginator buttons listener that populates the table
-	// with the page of results for the clicked button
-	$(".paginator").on('click', '.btn-page', function() {
-		$.getJSON("https://www.cs.kent.ac.uk/people/staff/lb514/hygiene/hygiene.php",
-		{
-			op: "retrieve",
-			page: $(this).val()
-		},
-	 	function(data) {
-			loadTable(data);
-		});
 	});
 
 	// search submit button listener that passes the specified string as parameter
@@ -118,7 +120,7 @@ $(document).ready(function() {
 	// parameter to the script and looks for matches by postcode in the results
 	$("body").on("click", ".btn-rating", function() {
 		var businessName = $(this).closest('tr').find("td:nth-child(1)").text();
-		var businessPostcode = $(this).closest('tr').find("td:nth-child(2)").text().slice(-7);
+		var businessPostcode = this.id;
 		$.getJSON("https://www.cs.kent.ac.uk/people/staff/lb514/hygiene/rating.php",
 	    {
 	        name: businessName
